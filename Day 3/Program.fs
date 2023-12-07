@@ -63,7 +63,7 @@ let lines = File.ReadAllLines(inputFile)
             | r when r + 1 = lines.Length -> [| currentRow - 1; currentRow |]
             | _ -> [| currentRow - 1; currentRow; currentRow + 1 |]
 
-        let numbers =
+        let adjacent =
             rowsToScan
             |> Seq.fold
                 (fun state row ->
@@ -79,7 +79,7 @@ let lines = File.ReadAllLines(inputFile)
                     state @ numbers)
                 List.empty
 
-        if numbers.Length = 2 then numbers[0] * numbers[1] else 0)
+        if adjacent.Length = 2 then adjacent[0] * adjacent[1] else 0)
     |> Seq.sum)
 |> Seq.sum
 |> printfn "%i"
