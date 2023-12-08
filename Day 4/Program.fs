@@ -32,7 +32,7 @@ lines
 // Part 2
 [| 0 .. lines.Length - 1 |]
 |> Seq.fold
-    (fun (dupes: int array) cardIndex ->
+    (fun (instances: int array) cardIndex ->
         let line = lines[cardIndex]
 
         match line.Split(":") with
@@ -49,16 +49,15 @@ lines
                         |> Seq.exists (fun winningMatch -> chosenMatch.Value = winningMatch.Value))
                     |> Seq.length
 
-                let head = dupes |> Seq.take (cardIndex + 1)
+                let head = instances |> Seq.take (cardIndex + 1)
 
-                let updatedDupes =
+                let updatedInstances =
                     [ cardIndex + 1 .. cardIndex + matchingNumbers ]
-                    |> Seq.map (fun i -> dupes[i] + dupes[cardIndex])
+                    |> Seq.map (fun i -> instances[i] + instances[cardIndex])
 
-                let tail = dupes |> Seq.skip (cardIndex + matchingNumbers + 1)
+                let tail = instances |> Seq.skip (cardIndex + matchingNumbers + 1)
 
-                let x = tail |> Seq.append updatedDupes |> Seq.append head |> Seq.toArray
-                x
+                tail |> Seq.append updatedInstances |> Seq.append head |> Seq.toArray
 
             | _ -> failwith "{winning} | {chosen} format not matched"
         | _ -> failwith "Card x : {numbers} format not matched")
